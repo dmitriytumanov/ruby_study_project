@@ -1,2 +1,1 @@
-# studyproject
-Ruby Study Project
+Hello, brother.
