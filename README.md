@@ -1,2 +1,1 @@
 Hello, brother.
-Hello, brother.
