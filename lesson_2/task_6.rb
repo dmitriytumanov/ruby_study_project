@@ -11,13 +11,13 @@ loop do
     price = gets.chomp.to_f
   puts "Enter product quantity:"
     quantity = gets.chomp.to_f
-    hash_products[product] = {price => quantity}
+    hash_products[product] = { price: price, quantity: quantity }
 end
 
 sum = 0
 
-hash_products.each do |product, price|
-  cost = price.keys[0] * price.values[0]
+hash_products.each do |product, product_cost|
+  cost = product_cost[:price] * product_cost[:quantity]
   puts "Product <#{product}> bought at a price <#{cost}>"
   sum += cost
 end
