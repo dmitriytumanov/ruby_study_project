@@ -21,16 +21,15 @@ class Station
   end
 
   def get_trains_at_station
-    puts "Trains on station #{self.name}:"
-    self.trains.each { |train|
+    puts "Trains on station #{name}:"
+    trains.each { |train|
       puts train.number
     }
-    return self.trains
   end
 
   def trains_by_type(type)
-    puts "Trains with type #{type} on station #{self.name}:"
-    self.trains.each { |train|
+    puts "Trains with type #{type} on station #{name}:"
+    trains.each { |train|
       puts train.number if train.type == type
     }
   end
