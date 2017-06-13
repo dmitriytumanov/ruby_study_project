@@ -5,7 +5,7 @@ require_relative 'train'
 require_relative 'route'
 require_relative 'station'
 
-my_train = Train.new("1_my_train_1", "passenger", 4)
+my_train = Train.new("№_123_456", "passenger", 7)
 
 nn_station = Station.new("NN")
 kv_station = Station.new("Kovrov")
@@ -15,7 +15,10 @@ mw_station = Station.new("Moscow")
 my_route = Route.new(nn_station, mw_station)
 my_route.add_intermediate_station(kv_station)
 my_route.add_intermediate_station(vl_station)
-my_route.get_stations_in_route
 
-my_train.add_wagon
-my_train.del_wagon
+my_train.route = my_route
+
+my_train.move_next_station
+my_train.get_previous_station
+my_train.get_current_station
+my_train.get_next_station

@@ -2,7 +2,8 @@
 # This class is used to control the train.
 
 class Train
-  attr_accessor :number, :speed, :wagons, :route, :current_station_index, :type
+  attr_accessor :number, :speed, :wagons, :type
+  attr_reader :route
 
   def initialize(number, type, wagons)
     @number = number
@@ -39,44 +40,44 @@ class Train
     end
   end
 
-  def take_route(route)
-    self.route = route
-    self.current_station_index = 0
+  def route=(route)
+    @route = route
+    @current_station_index = 0
     self.route.stations.first.take_train(self)
     puts "Route of this train is from #{self.route.start_station.name} to #{self.route.end_station.name}"
   end
 
   def move_next_station
     current_station.send_train(self)
-    self.current_station_index += 1
+    @current_station_index += 1
     current_station.take_train(self)
   end
 
   def move_previous_station
     current_station.send_train(self)
-    self.current_station_index -= 1
+    @current_station_index -= 1
     current_station.take_train(self)
   end
 
   def get_current_station
-    station = self.route.stations[current_station_index]
-    puts "#{direction.capitalize!} station is #{station.name}"
+    station = self.route.stations[@current_station_index]
+    puts "Current station is #{station.name}"
     return station
   end
 
   def get_next_station
-    station = self.route.stations[current_station_index + 1]
-    puts "#{direction.capitalize!} station is #{station.name}"
+    station = self.route.stations[@current_station_index + 1]
+    puts "Next station is #{station.name}"
     return station
   end
 
   def get_previous_station
-    station = self.route.stations[current_station_index - 1]
-    puts "#{direction.capitalize!} station is #{station.name}"
+    station = self.route.stations[@current_station_index - 1]
+    puts "Previous station is #{station.name}"
     return station
   end
 
   def current_station
-    self.route.stations[current_station_index]
+    self.route.stations[@current_station_index]
   end
 end

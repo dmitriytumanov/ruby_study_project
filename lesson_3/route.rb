@@ -21,8 +21,8 @@ class Route
 
   def get_stations_in_route
     puts "Stations in route:"
-    self.stations.each { |station|
+    self.stations.each do |station|
       puts "\t#{station.name}"
-    }
+    end
   end
 end
