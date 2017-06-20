@@ -1,13 +1,4 @@
 class Route
-  protected
-
-  # Для работы с данным параметром не из класса
-  # созданы специальные методы.
-  # В дочерниз классах изменение данного параметра может понадобиться.
-  attr_writer :stations
-
-  public
-
   attr_reader :start_station, :end_station, :stations
 
   def initialize(start_station, end_station)
@@ -30,4 +21,11 @@ class Route
       puts "\t#{station.name}"
     end
   end
+
+  protected
+
+  # Для работы с данным параметром не из класса
+  # созданы специальные методы.
+  # В дочерниз классах изменение данного параметра может понадобиться.
+  attr_writer :stations
 end

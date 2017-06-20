@@ -1,4 +1,6 @@
 class Wagon
+  attr_reader :number, :type
+
   private
 
   # Запрещаю инициализацию через данный класс.
@@ -9,8 +11,4 @@ class Wagon
     @number = number
     @type = type
   end
-
-  public
-
-  attr_reader :number, :type
 end

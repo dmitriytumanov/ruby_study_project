@@ -1,35 +1,4 @@
 class Train
-  # protected
-
-  # Метод создан для удобства вызовы внутри класса.
-  # Вызов вне класса не имеет смысла.
-  # В дочерних классах метод может понадобиться для создания новых методов.
-  def current_station
-    self.route.stations[@current_station_index]
-  end
-
-  # Создание нового объекта должно происходить
-  # либо в текущем классе, либо в классах потомках через перегруженный метод.
-  def initialize(number, type)
-    @number = number
-    @type = type
-    @speed = 0
-    @wagons = []
-  end
-
-  # У нас есть методы для работы со скростью.
-  # Возможность изменять данный атрибут в обход данных методов
-  # рушит логику работы программы.
-  # В дочерних классах такая возможность может понадобиться.
-  attr_writer :speed
-
-  # У нас есть методы для добавления и удаления вагонов к поезду.
-  # Возможнсть менять данный атрибут в обход данных метод
-  # рушить логику работы программы.
-  attr_writer :wagons
-
-  public
-
   attr_reader :speed, :number, :type, :route
   attr_reader :wagons
 
@@ -64,8 +33,6 @@ class Train
   def del_wagon(wagon)
     if speed != 0
       puts "Stop train!!! Train is going at a speed #{speed} kph."
-    elsif type != wagon.type
-      puts "Type of wagon #{wagon.type} and train #{type} do not match."
     elsif wagons.size > 0
       wagons.delete(wagon)
       puts "You unhook wagon #{wagon.number} from train #{number}."
@@ -101,4 +68,33 @@ class Train
     puts "Previous station is #{station.name}"
     return station
   end
+
+  protected
+
+  # Метод создан для удобства вызовы внутри класса.
+  # Вызов вне класса не имеет смысла.
+  # В дочерних классах метод может понадобиться для создания новых методов.
+  def current_station
+    self.route.stations[@current_station_index]
+  end
+
+  # Создание нового объекта должно происходить
+  # либо в текущем классе, либо в классах потомках через перегруженный метод.
+  def initialize(number, type)
+    @number = number
+    @type = type
+    @speed = 0
+    @wagons = []
+  end
+
+  # У нас есть методы для работы со скростью.
+  # Возможность изменять данный атрибут в обход данных методов
+  # рушит логику работы программы.
+  # В дочерних классах такая возможность может понадобиться.
+  attr_writer :speed
+
+  # У нас есть методы для добавления и удаления вагонов к поезду.
+  # Возможнсть менять данный атрибут в обход данных метод
+  # рушить логику работы программы.
+  attr_writer :wagons
 end
