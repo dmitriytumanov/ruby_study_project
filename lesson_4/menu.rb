@@ -120,19 +120,19 @@ class Menu
     return search_train
   end
 
-  def check_route_availability(start_station_name, end_station_name)
+  def check_route_availability(start_station, end_station)
     search_route = nil
     @routes_list.each do |route|
-      if route.start_station == start_station_name && route.end_station == end_station_name
+      if route.start_station == start_station && route.end_station == end_station
         search_route = route
-        puts "Маршрут из #{search_route.start_station} в #{search_route.end_station} уже существует."
+        puts "Маршрут из #{search_route.start_station.name} в #{search_route.end_station.name} уже существует."
         break
       end
     end
     if !search_route
-      search_route = Route.new(start_station_name, end_station_name)
+      search_route = Route.new(start_station, end_station)
       @routes_list << search_route
-      puts "Вы создали маршрут из #{search_route.start_station} в #{search_route.end_station}"
+      puts "Вы создали маршрут из #{search_route.start_station.name} в #{search_route.end_station.name}"
     end
     return search_route
   end
@@ -205,11 +205,9 @@ class Menu
     train = check_train_availability(number, type)
     start_station = сheck_station_availability(start_station_name)
     end_station = сheck_station_availability(end_station_name)
-    route = check_route_availability(start_station.name, end_station.name)
-    # TODO: Почему здесь происходит баг?
-    # train.rb:49:in `route=': undefined method `take_train' for "my_name":String (NoMethodError)
+    route = check_route_availability(start_station, end_station)
     train.route = route
-    puts "Вы назначили поезду #{train.number} марщрут из #{route.start_station} в #{route.end_station}"
+    puts "Вы назначили поезду #{train.number} марщрут из #{route.start_station.name} в #{route.end_station.name}"
   end
 
   def create_wagon

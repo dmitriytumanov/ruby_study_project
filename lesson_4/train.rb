@@ -2,6 +2,13 @@ class Train
   attr_reader :speed, :number, :type, :route
   attr_reader :wagons
 
+  def initialize(number, type)
+    @number = number
+    @type = type
+    @speed = 0
+    @wagons = []
+  end
+
   def speed_up
     self.speed += 10
     puts "Train picked up speed. Current speed = #{speed}"
@@ -76,15 +83,6 @@ class Train
   # В дочерних классах метод может понадобиться для создания новых методов.
   def current_station
     self.route.stations[@current_station_index]
-  end
-
-  # Создание нового объекта должно происходить
-  # либо в текущем классе, либо в классах потомках через перегруженный метод.
-  def initialize(number, type)
-    @number = number
-    @type = type
-    @speed = 0
-    @wagons = []
   end
 
   # У нас есть методы для работы со скростью.
