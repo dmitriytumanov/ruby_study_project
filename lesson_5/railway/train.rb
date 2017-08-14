@@ -5,22 +5,18 @@ class Train
 
   attr_reader :speed, :number, :type, :route, :wagons
 
-  @@trains = []
+  @@trains_numbers = {}
 
   def initialize(number, type)
     @number = number
     @type = type
     @speed = 0
     @wagons = []
-    @@trains << self
+    @@trains_numbers[number] = self
   end
 
   def self.find(number)
-    search_train = nil
-    @@trains.each do |train|
-      search_train = train if train.number == number
-    end
-    return search_train
+    @@trains_numbers[number]
   end
 
   def speed_up

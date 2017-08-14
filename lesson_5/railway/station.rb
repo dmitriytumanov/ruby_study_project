@@ -10,10 +10,7 @@ class Station
   end
 
   def self.all
-    puts "Stations list:"
-    @@stations.each do |station|
-      puts station.name
-    end
+    @@stations
   end
 
   def take_train(train)
