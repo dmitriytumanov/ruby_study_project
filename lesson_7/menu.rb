@@ -242,12 +242,12 @@ class Menu
     number = gets.chomp
     puts "Введите тип вагона (Passenger/Cargo):"
     type = gets.chomp
-    if type == "passenger"
+    if type == "Passenger"
       puts "Введите количество мест в вагоне:"
-      train_capacity = gets.chomp
-    elsif type == "cargo"
+      train_capacity = gets.chomp.to_i
+    elsif type == "Cargo"
       puts "Введите объем вагона:"
-      train_capacity = gets.chomp
+      train_capacity = gets.chomp.to_i
     end
     wagon = check_wagon_availability(number, type, train_capacity)
   end
@@ -324,9 +324,9 @@ class Menu
     end
     puts "Вагоны в поезде с номером #{number} и типом #{type}:"
     if type == "Passenger"
-      our_train.wagons_review { |wagon| puts "#{wagon.number} #{wagon.type} #{wagon.free_seats_number} #{wagon.busy_seats_number}" }
+      our_train.each_wagon { |wagon| puts wagon }
     elsif type == "Cargo"
-      our_train.wagons_review { |wagon| puts "#{wagon.number} #{wagon.type} #{wagon.free_volume} #{wagon.busy_volume}" }
+      our_train.each_wagon { |wagon| puts wagon }
     end
   end
 

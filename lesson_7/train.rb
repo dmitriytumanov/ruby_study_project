@@ -25,7 +25,7 @@ class Train
     false
   end
 
-  def wagons_review
+  def each_wagon
     @wagons.each { |wagon| yield(wagon) }
   end
 

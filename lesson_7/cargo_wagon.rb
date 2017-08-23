@@ -7,11 +7,13 @@ class CargoWagon < Wagon
     super(number, "Cargo")
     @all_volume = all_volume
     @free_volume = all_volume
-    @busy_volume = 0
   end
 
   def take_volume(volume)
     @free_volume -= volume
-    @busy_volume += volume
+  end
+
+  def to_s
+    [@number, @type, @free_volume, @all_volume - @free_volume].join(' ')
   end
 end

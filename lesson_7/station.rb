@@ -18,7 +18,7 @@ class Station
     false
   end
 
-  def trains_review
+  def each_train
     @trains.each { |train| yield(train) }
   end
 

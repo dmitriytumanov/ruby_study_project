@@ -7,11 +7,13 @@ class PassengerWagon < Wagon
     super(number, "Passenger")
     @seats_number = seats_number
     @free_seats_number = seats_number
-    @busy_seats_number = 0
   end
 
   def take_place
     @free_seats_number -= 1
-    @busy_seats_number += 1
+  end
+
+  def to_s
+    [@number, @type, @free_seats_number, @seats_number - @free_seats_number].join(' ')
   end
 end
