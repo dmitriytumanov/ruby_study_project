@@ -10,10 +10,14 @@ class CargoWagon < Wagon
   end
 
   def take_volume(volume)
-    @free_volume -= volume
+    @free_volume -= volume if @free_volume >= volume
+  end
+
+  def get_busy_volume
+    @all_volume - @free_volume
   end
 
   def to_s
-    [@number, @type, @free_volume, @all_volume - @free_volume].join(' ')
+    [@number, @type, @free_volume, get_busy_volume].join(' ')
   end
 end

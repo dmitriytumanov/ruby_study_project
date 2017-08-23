@@ -347,6 +347,6 @@ class Menu
       end
     end
     puts "Поезда на странции #{name}:"
-    our_station.trains_review { |train| puts "#{train.number} #{train.type} #{train.wagons.size}" }
+    our_station.each_train { |train| puts "#{train.number} #{train.type} #{train.wagons.size}" }
   end
 end
