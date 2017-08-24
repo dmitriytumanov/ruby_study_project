@@ -13,7 +13,7 @@ class CargoWagon < Wagon
     @free_volume -= volume if @free_volume >= volume
   end
 
-  def get_busy_volume
+  def busy_volume
     @all_volume - @free_volume
   end
 

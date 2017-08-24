@@ -323,11 +323,7 @@ class Menu
       end
     end
     puts "Вагоны в поезде с номером #{number} и типом #{type}:"
-    if type == "Passenger"
-      our_train.each_wagon { |wagon| puts wagon }
-    elsif type == "Cargo"
-      our_train.each_wagon { |wagon| puts wagon }
-    end
+    our_train.each_wagon { |wagon| puts wagon }
   end
 
   def add_train_to_station
@@ -347,6 +343,6 @@ class Menu
       end
     end
     puts "Поезда на странции #{name}:"
-    our_station.each_train { |train| puts "#{train.number} #{train.type} #{train.wagons.size}" }
+    our_station.each_train { |train| puts train }
   end
 end

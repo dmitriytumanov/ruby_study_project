@@ -13,7 +13,7 @@ class PassengerWagon < Wagon
     @free_seats_number -= 1 if @free_seats_number > 0
   end
 
-  def get_busy_volume
+  def busy_seats
     @seats_number - @free_seats_number
   end
 

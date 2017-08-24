@@ -25,6 +25,10 @@ class Train
     false
   end
 
+  def to_s
+    [@number, @type, @wagons.size].join(' ')
+  end
+
   def each_wagon
     @wagons.each { |wagon| yield(wagon) }
   end
