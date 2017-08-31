@@ -20,9 +20,9 @@ class Menu
     loop do
       open_menu
       handle_action
-      puts "Вы хотите продолжить работу с программой? (y/n)"
+      puts 'Вы хотите продолжить работу с программой? (y/n)'
       input = gets.chomp
-      break if input == "n"
+      break if input == 'n'
     end
   end
 
@@ -48,7 +48,7 @@ class Menu
   end
 
   def handle_action
-    case action_number = gets.chomp.to_i
+    case gets.chomp.to_i
     when 1
       create_station
     when 2
@@ -74,9 +74,9 @@ class Menu
     when 12
       move_train_previous
     when 13
-      get_stations_list
+      stations_list
     when 14
-      get_train_at_station
+      train_at_station
     when 15
       display_wagons_in_train
     when 16
@@ -87,169 +87,165 @@ class Menu
   end
 
   def create_station
-    puts "Введите название станции:"
+    puts 'Введите название станции:'
     name = gets.chomp
-    station = сheck_station_availability(name)
+    check_station_availability(name)
   end
 
   def create_train
     begin
-      puts "Введите номер поезда:"
+      puts 'Введите номер поезда:'
       number = gets.chomp
-      raise "Неверный формат номера поезда" if number !~ NUMBER_FORMAT
+      raise 'Неверный формат номера поезда' if number !~ NUMBER_FORMAT
     rescue RuntimeError => e
       puts e.message
       retry
     end
     begin
-      puts "Введите тип поезда (Passenger/Cargo):"
+      puts 'Введите тип поезда (Passenger/Cargo):'
       type = gets.chomp
-      raise "Неверный тип поезда" if type !~ TYPE_FORMAT
+      raise 'Неверный тип поезда' if type !~ TYPE_FORMAT
     rescue RuntimeError => e
       puts e.message
       retry
     end
-    train = check_train_availability(number, type)
+    check_train_availability(number, type)
   end
 
-  def сheck_station_availability(name)
+  def check_station_availability(name)
     search_station = nil
     @stations_list.each do |station|
-      if station.name == name
-        search_station = station
-        puts "Станция #{search_station.name} уже существует."
-        break
-      end
+      next unless station.name == name
+      search_station = station
+      puts "Станция #{search_station.name} уже существует."
+      break
     end
-    if !search_station
+    unless search_station
       search_station = Station.new(name)
       @stations_list << search_station
       puts "Вы создали станцию #{search_station.name}"
     end
-    return search_station
+    search_station
   end
 
   def check_train_availability(number, type)
     search_train = nil
     @trains_list.each do |train|
-      if number == number
-        search_train = train
-        puts "Поезд #{search_train.number} уже существует."
-        break
-      end
+      next unless train.number == number
+      search_train = train
+      puts "Поезд #{search_train.number} уже существует."
+      break
     end
-    if !search_train
-      search_train = PassengerTrain.new(number) if type == "Passenger"
-      search_train = CargoTrain.new(number) if type == "Cargo"
+    unless search_train
+      search_train = PassengerTrain.new(number) if type == 'Passenger'
+      search_train = CargoTrain.new(number) if type == 'Cargo'
       @trains_list << search_train
       puts "Вы создали поезд типа #{search_train.type} c номером #{search_train.number}"
     end
-    return search_train
+    search_train
   end
 
   def check_route_availability(start_station, end_station)
     search_route = nil
     @routes_list.each do |route|
-      if route.start_station == start_station && route.end_station == end_station
-        search_route = route
-        puts "Маршрут из #{search_route.start_station.name} в #{search_route.end_station.name} уже существует."
-        break
-      end
+      next unless route.start_station == start_station && route.end_station == end_station
+      search_route = route
+      puts "Маршрут из #{search_route.start_station.name} в #{search_route.end_station.name} уже существует."
+      break
     end
-    if !search_route
+    unless search_route
       search_route = Route.new(start_station, end_station)
       @routes_list << search_route
       puts "Вы создали маршрут из #{search_route.start_station.name} в #{search_route.end_station.name}"
     end
-    return search_route
+    search_route
   end
 
   def check_wagon_availability(number, type, train_capacity)
     search_wagon = nil
     @wagons_list.each do |wagon|
-      if number == number
-        search_wagon = wagon
-        puts "Вагон #{wagon.number} уже существует."
-        break
-      end
+      next unless wagon.number == number
+      search_wagon = wagon
+      puts "Вагон #{wagon.number} уже существует."
+      break
     end
-    if !search_wagon
-      search_wagon = PassengerWagon.new(number, train_capacity) if type == "Passenger"
-      search_wagon = CargoWagon.new(number, train_capacity) if type == "Cargo"
+    unless search_wagon
+      search_wagon = PassengerWagon.new(number, train_capacity) if type == 'Passenger'
+      search_wagon = CargoWagon.new(number, train_capacity) if type == 'Cargo'
       @wagons_list << search_wagon
       puts "Вы создали вагон типа #{search_wagon.type} c номером #{search_wagon.number}"
     end
-    return search_wagon
+    search_wagon
   end
 
   def create_route
-    puts "Введите название начальной станции маршрута:"
+    puts 'Введите название начальной станции маршрута:'
     start_station_name = gets.chomp
-    puts "Введите название конечной станции маршрута:"
+    puts 'Введите название конечной станции маршрута:'
     end_station_name = gets.chomp
-    route = check_route_availability(start_station_name, end_station_name)
+    check_route_availability(start_station_name, end_station_name)
   end
 
   def add_station_to_route
-    puts "Введите название станции для добавления:"
+    puts 'Введите название станции для добавления:'
     station_name = gets.chomp
-    puts "Введите название начальной станции маршрута:"
+    puts 'Введите название начальной станции маршрута:'
     start_station_name = gets.chomp
-    puts "Введите название конечной станции маршрута:"
+    puts 'Введите название конечной станции маршрута:'
     end_station_name = gets.chomp
-    station = сheck_station_availability(station_name)
-    start_station = сheck_station_availability(start_station_name)
-    end_station = сheck_station_availability(end_station_name)
+    station = check_station_availability(station_name)
+    start_station = check_station_availability(start_station_name)
+    end_station = check_station_availability(end_station_name)
     route = check_route_availability(start_station.name, end_station.name)
     route.add_intermediate_station(station)
     puts "Вы добавили станцию #{station.name} в маршрут из #{route.start_station} в #{route.end_station}"
   end
 
   def del_station_from_route
-    puts "Введите название станции для удаление:"
+    puts 'Введите название станции для удаление:'
     station_name = gets.chomp
-    puts "Введите название начальной станции маршрута:"
+    puts 'Введите название начальной станции маршрута:'
     start_station_name = gets.chomp
-    puts "Введите название конечной станции маршрута:"
+    puts 'Введите название конечной станции маршрута:'
     end_station_name = gets.chomp
-    station = сheck_station_availability(station_name)
-    start_station = сheck_station_availability(start_station_name)
-    end_station = сheck_station_availability(end_station_name)
+    station = check_station_availability(station_name)
+    start_station = check_station_availability(start_station_name)
+    end_station = check_station_availability(end_station_name)
     route = check_route_availability(start_station.name, end_station.name)
     route.del_intermediate_station(station)
     puts "Вы удалили станцию #{station.name} в маршруте из #{route.start_station} в #{route.end_station}."
   end
 
   def schedule_route_to_train
-    puts "Введите номер поезда:"
+    puts 'Введите номер поезда:'
     number = gets.chomp.to_i
-    puts "Введите тип поезда (Passenger/Cargo):"
+    puts 'Введите тип поезда (Passenger/Cargo):'
     type = gets.chomp
-    puts "Введите название начальной станции маршрута:"
+    puts 'Введите название начальной станции маршрута:'
     start_station_name = gets.chomp
-    puts "Введите название конечной станции маршрута:"
+    puts 'Введите название конечной станции маршрута:'
     end_station_name = gets.chomp
     train = check_train_availability(number, type)
-    start_station = сheck_station_availability(start_station_name)
-    end_station = сheck_station_availability(end_station_name)
+    start_station = check_station_availability(start_station_name)
+    end_station = check_station_availability(end_station_name)
     route = check_route_availability(start_station, end_station)
     train.route = route
     puts "Вы назначили поезду #{train.number} марщрут из #{route.start_station.name} в #{route.end_station.name}"
   end
 
   def create_wagon
-    puts "Введите номер вагона:"
+    puts 'Введите номер вагона:'
     number = gets.chomp
-    puts "Введите тип вагона (Passenger/Cargo):"
+    puts 'Введите тип вагона (Passenger/Cargo):'
     type = gets.chomp
-    if type == "Passenger"
-      puts "Введите количество мест в вагоне:"
+    if type == 'Passenger'
+      puts 'Введите количество мест в вагоне:'
       train_capacity = gets.chomp.to_i
-    elsif type == "Cargo"
-      puts "Введите объем вагона:"
+    elsif type == 'Cargo'
+      puts 'Введите объем вагона:'
       train_capacity = gets.chomp.to_i
     end
-    wagon = check_wagon_availability(number, type, train_capacity)
+    check_wagon_availability(number, type, train_capacity)
   end
 
   def add_wagon_to_train
@@ -266,14 +262,14 @@ class Menu
 
   def fill_wagon
     wagon = create_wagon
-    wagon.take_volume(10) if wagon.type == "Passenger"
-    wagon.take_place if wagon.type == "Cargo"
+    wagon.take_volume(10) if wagon.type == 'Passenger'
+    wagon.take_place if wagon.type == 'Cargo'
   end
 
   def move_train_next
-    puts "Введите номер поезда:"
+    puts 'Введите номер поезда:'
     number = gets.chomp.to_i
-    puts "Введите тип поезда (Passenger/Cargo):"
+    puts 'Введите тип поезда (Passenger/Cargo):'
     type = gets.chomp
     train = check_train_availability(number, type)
     train.move_next_station
@@ -281,30 +277,30 @@ class Menu
   end
 
   def move_train_previous
-    puts "Введите номер поезда:"
+    puts 'Введите номер поезда:'
     number = gets.chomp.to_i
-    puts "Введите тип поезда (Passenger/Cargo):"
+    puts 'Введите тип поезда (Passenger/Cargo):'
     type = gets.chomp
     train = check_train_availability(number, type)
     train.move_previous_station
     puts "Вы переместили поезд с номером #{train.number} на предыдущую станцию."
   end
 
-  def get_stations_list
-    if @stations_list.size == 0
-      puts "Ещё не создали ни одной станции."
+  def stations_list
+    if @stations_list.empty?
+      puts 'Ещё не создали ни одной станции.'
     else
-      puts "Список станций:"
+      puts 'Список станций:'
       @stations_list.each do |station|
         puts "Название - #{station.name}"
       end
     end
   end
 
-  def get_train_at_station
-    puts "Введите название станции:"
+  def train_at_station
+    puts 'Введите название станции:'
     name = gets.chomp
-    station = сheck_station_availability(name)
+    station = check_station_availability(name)
     station.trains.each do |train|
       puts "Номер поезда - #{train.number}"
     end
@@ -312,9 +308,9 @@ class Menu
 
   def display_wagons_in_train
     our_train = nil
-    puts "Введите номер поезда:"
+    puts 'Введите номер поезда:'
     number = gets.chomp
-    puts "Введите тип поезда (Passenger/Cargo):"
+    puts 'Введите тип поезда (Passenger/Cargo):'
     type = gets.chomp
     @trains_list.each do |train|
       if train.number == number && train.type == type
@@ -334,7 +330,7 @@ class Menu
 
   def display_trains_in_station
     our_station = nil
-    puts "Введите название станции:"
+    puts 'Введите название станции:'
     name = gets.chomp
     @stations_list.each do |station|
       if station.name == name

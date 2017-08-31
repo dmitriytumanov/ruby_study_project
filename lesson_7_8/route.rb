@@ -10,19 +10,20 @@ class Route
 
   def valid?
     validate!
+    true
   rescue
     false
   end
 
   def add_intermediate_station(intermediate_station)
-    self.stations.insert(-2, intermediate_station)
+    stations.insert(-2, intermediate_station)
   end
 
   def del_intermediate_station(station_name)
-    self.stations.delete(station_name) { "There is no such station in route." }
+    stations.delete(station_name) { 'There is no such station in route.' }
   end
 
-  def get_stations_in_route
+  def stations_in_route
     @stations
   end
 
@@ -31,11 +32,7 @@ class Route
   def validate!
     raise "Start station can't be nil" if start_station.nil?
     raise "End station can't be nil" if end_station.nil?
-    true
   end
 
-  # Для работы с данным параметром не из класса
-  # созданы специальные методы.
-  # В дочерниз классах изменение данного параметра может понадобиться.
   attr_writer :stations
 end

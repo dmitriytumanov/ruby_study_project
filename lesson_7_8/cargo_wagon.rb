@@ -1,10 +1,10 @@
 require_relative 'wagon'
 
 class CargoWagon < Wagon
-  attr_reader :all_volume, :free_volume, :busy_volume
+  attr_reader :all_volume, :free_volume
 
   def initialize(number, all_volume)
-    super(number, "Cargo")
+    super(number, 'Cargo')
     @all_volume = all_volume
     @free_volume = all_volume
   end
@@ -18,6 +18,6 @@ class CargoWagon < Wagon
   end
 
   def to_s
-    [@number, @type, @free_volume, get_busy_volume].join(' ')
+    [@number, @type, @free_volume, busy_volume].join(' ')
   end
 end

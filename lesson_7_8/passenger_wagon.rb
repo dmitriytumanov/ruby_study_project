@@ -1,10 +1,10 @@
 require_relative 'wagon'
 
 class PassengerWagon < Wagon
-  attr_reader :seats_number, :free_seats_number, :busy_seats_number
+  attr_reader :seats_number, :free_seats_number
 
   def initialize(number, seats_number)
-    super(number, "Passenger")
+    super(number, 'Passenger')
     @seats_number = seats_number
     @free_seats_number = seats_number
   end
@@ -18,6 +18,6 @@ class PassengerWagon < Wagon
   end
 
   def to_s
-    [@number, @type, @free_seats_number, get_busy_volume].join(' ')
+    [@number, @type, @free_seats_number, busy_seats].join(' ')
   end
 end

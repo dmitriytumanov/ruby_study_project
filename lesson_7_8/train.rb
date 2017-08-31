@@ -3,10 +3,10 @@ require_relative 'manufacturer'
 class Train
   include Manufacturer
 
-  attr_reader :speed, :number, :type, :route, :wagons
-
   NUMBER_FORMAT = /^[а-я]{3}\d{3}-?[а-я]{2}\d{2}$/i
   TYPE_FORMAT = /Cargo|Passenger/
+
+  attr_reader :speed, :number, :type, :route, :wagons
 
   @@trains_numbers = {}
 
@@ -21,6 +21,7 @@ class Train
 
   def valid?
     validate!
+    true
   rescue
     false
   end
@@ -64,7 +65,7 @@ class Train
   def del_wagon(wagon)
     if speed != 0
       puts "Stop train!!! Train is going at a speed #{speed} kph."
-    elsif wagons.size > 0
+    elsif !wagons.empty?
       wagons.delete(wagon)
     end
   end
@@ -81,43 +82,28 @@ class Train
     current_station.take_train(self)
   end
 
-  def get_current_station
-    station = route.stations[@current_station_index]
+  def current_station
+    route.stations[@current_station_index]
   end
 
-  def get_next_station
-    station = route.stations[@current_station_index + 1]
+  def next_station
+    route.stations[@current_station_index + 1]
   end
 
-  def get_previous_station
-    station = route.stations[@current_station_index - 1]
+  def previous_station
+    route.stations[@current_station_index - 1]
   end
 
   protected
 
   def validate!
     raise "Number can't be nil" if number.nil?
-    raise "Number has invalid format" if number !~ NUMBER_FORMAT
+    raise 'Number has invalid format' if number !~ NUMBER_FORMAT
     raise "Type can't be nil" if type.nil?
-    raise "Type has invalid format" if type !~ TYPE_FORMAT
-    true
+    raise 'Type has invalid format' if type !~ TYPE_FORMAT
   end
 
-  # Метод создан для удобства вызовы внутри класса.
-  # Вызов вне класса не имеет смысла.
-  # В дочерних классах метод может понадобиться для создания новых методов.
-  def current_station
-    self.route.stations[@current_station_index]
-  end
-
-  # У нас есть методы для работы со скростью.
-  # Возможность изменять данный атрибут в обход данных методов
-  # рушит логику работы программы.
-  # В дочерних классах такая возможность может понадобиться.
   attr_writer :speed
 
-  # У нас есть методы для добавления и удаления вагонов к поезду.
-  # Возможнсть менять данный атрибут в обход данных метод
-  # рушить логику работы программы.
   attr_writer :wagons
 end
