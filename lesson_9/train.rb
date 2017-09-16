@@ -1,12 +1,22 @@
 require_relative 'manufacturer'
+require_relative 'validation'
 
 class Train
   include Manufacturer
+  include Validation
 
   NUMBER_FORMAT = /^[а-я]{3}\d{3}-?[а-я]{2}\d{2}$/i
   TYPE_FORMAT = /Cargo|Passenger/
 
-  attr_reader :speed, :number, :type, :route, :wagons
+  validate :number, :presence
+  validate :number, :format, NUMBER_FORMAT
+  validate :number, :type, String
+
+  validate :type, :presence
+  validate :type, :format, TYPE_FORMAT
+  validate :type, :type, String
+
+  attr_reader :speed, :route, :wagons
 
   @@trains_numbers = {}
 
@@ -17,13 +27,6 @@ class Train
     @speed = 0
     @wagons = []
     @@trains_numbers[number] = self
-  end
-
-  def valid?
-    validate!
-    true
-  rescue
-    false
   end
 
   def to_s
@@ -96,14 +99,5 @@ class Train
 
   protected
 
-  def validate!
-    raise "Number can't be nil" if number.nil?
-    raise 'Number has invalid format' if number !~ NUMBER_FORMAT
-    raise "Type can't be nil" if type.nil?
-    raise 'Type has invalid format' if type !~ TYPE_FORMAT
-  end
-
-  attr_writer :speed
-
-  attr_writer :wagons
+  attr_writer :speed, :wagons
 end

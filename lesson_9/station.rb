@@ -1,7 +1,15 @@
+require_relative 'validation'
+
 class Station
+  include Validation
+
   NAME_FORMAT = /^[а-я]{5,}$/i
 
-  attr_reader :trains, :name
+  validate :name, :presence
+  validate :name, :format, NAME_FORMAT
+  validate :name, :type, String
+
+  attr_reader :trains
 
   @@stations = []
 
@@ -10,13 +18,6 @@ class Station
     validate!
     @trains = []
     @@stations << self
-  end
-
-  def valid?
-    validate!
-    true
-  rescue
-    false
   end
 
   def each_train
@@ -48,11 +49,6 @@ class Station
   end
 
   protected
-
-  def validate!
-    raise "Name can't be nil" if name.nil?
-    raise 'Name has invalid format' if name !~ NAME_FORMAT
-  end
 
   attr_writer :trains
 end

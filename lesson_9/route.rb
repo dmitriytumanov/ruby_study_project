@@ -1,18 +1,21 @@
+require_relative 'validation'
+
 class Route
-  attr_reader :start_station, :end_station, :stations
+  include Validation
+
+  validate :start_station, :presence
+  validate :start_station, :type, Station
+
+  validate :end_station, :presence
+  validate :end_station, :type, Station
+
+  attr_reader :stations
 
   def initialize(start_station, end_station)
     @start_station = start_station
     @end_station = end_station
     validate!
     @stations = [start_station, end_station]
-  end
-
-  def valid?
-    validate!
-    true
-  rescue
-    false
   end
 
   def add_intermediate_station(intermediate_station)
@@ -28,11 +31,6 @@ class Route
   end
 
   protected
-
-  def validate!
-    raise "Start station can't be nil" if start_station.nil?
-    raise "End station can't be nil" if end_station.nil?
-  end
 
   attr_writer :stations
 end
